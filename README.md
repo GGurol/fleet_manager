@@ -100,6 +100,9 @@ This project was inspired by the need for efficient fleet management solutions a
 
 ## Screenshots
 
+### Landing Page
+![home screen](screenshots/landing.png)
+
 ### Assets Listing
 ![asset listing](screenshots/asset_listing.png)
 
