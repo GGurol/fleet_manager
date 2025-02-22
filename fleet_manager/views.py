@@ -6,7 +6,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.db import IntegrityError
 from django.core.paginator import Paginator
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
+from django.db.models.functions import ExtractMonth
 
 from .models import User, Asset, PurchaseDetails, FinancingDetails, LicensingDetails
 from django.db.models import Sum, Count
@@ -164,11 +165,33 @@ def licensing(request):
     for disc in discs:
         disc.is_expiring_soon = disc.disc_expiry_date and disc.disc_expiry_date <= today_plus_30
 
-    paginator = Paginator(discs, 12)
+    paginator = Paginator(discs, 5)
     page_number = request.GET.get("page")
     discs = paginator.get_page(page_number)
 
-    return render(request, 'fleet_manager/licensing.html', {'discs': discs})
+     # Aggregate expiry data by month
+    monthly_expiries = (
+        LicensingDetails.objects
+        .values(month=ExtractMonth('disc_expiry_date'))
+        .annotate(
+            num_vehicles=Count('id'),
+            total_fees=Sum('disc_fee')
+        )
+        .order_by('month')
+    )
+
+    # Convert month number to name (e.g., 1 → January)
+    month_map = {i: datetime(2000, i, 1).strftime('%B') for i in range(1, 13)}
+    monthly_summary = [
+        {
+            "month": month_map.get(item["month"], "Unknown"),
+            "num_vehicles": item["num_vehicles"],
+            "total_fees": item["total_fees"] or 0  # Ensure no None values
+        }
+        for item in monthly_expiries
+    ]
+
+    return render(request, 'fleet_manager/licensing.html', {'discs': discs, 'monthly_summary': monthly_summary})
 
 
 def asset_view(request, asset_id):

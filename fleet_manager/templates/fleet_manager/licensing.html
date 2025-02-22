@@ -63,4 +63,28 @@
         {% endif %}
     </ul>
 </nav>
+
+<h2>Monthly Expiry Summary</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Month</th>
+            <th>Number of Vehicles</th>
+            <th>Total Fees</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for summary in monthly_summary %}
+        <tr>
+            <td>{{ summary.month }}</td>
+            <td>{{ summary.num_vehicles }}</td>
+            <td>R{{ summary.total_fees|floatformat:2|intcomma }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No expiring license discs.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
