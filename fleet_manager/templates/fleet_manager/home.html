@@ -6,8 +6,7 @@
 
 <!-- Vehicle Summary -->
 <div class="vehicle-summary">
-  <br><br>
-  <h2>Vehicle Summary</h2>
+  <h2>Vehicle Summary</h2><br>
   <table class="table">
     <thead>
       <tr>
@@ -30,6 +29,47 @@
       {% endfor %}
     </tbody>
   </table>
+</div><br>
+
+<!-- Dashboard Cards -->
+<div class="container mt-4">
+  <div class="row">
+    <!-- Financing Card -->
+    <div class="col-md-4">
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <h5 class="card-title">Financing</h5>
+          <hr>
+          <img src="../../static/fleet_manager/images/finance.jpeg" alt="finance houses" style="width: 250px; height: 250px;"><br><br>
+          <a href="#" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Licensing Card -->
+    <div class="col-md-4">
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <h5 class="card-title">Licensing</h5>
+          <hr>
+          <img src="../../static/fleet_manager/images/licence-disc.jpg" alt="licence-disc" style="width: 250px; height: 250px"><br><br>
+          <a href="#" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accounting Card -->
+    <div class="col-md-4">
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <h5 class="card-title">Accounting</h5>
+          <hr>
+          <img src="../../static/fleet_manager/images/recha-oktaviani-h2aDKwigQeA-unsplash.jpg" alt="licence-disc" style="width: 250px; height: 250px"><br><br>
+          <a href="#" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
