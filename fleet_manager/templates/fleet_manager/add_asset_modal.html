@@ -1,0 +1,71 @@
+<!-- Add Asset Modal -->
+<div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAssetModalLabel">Add New Vehicle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'add_asset' %}">
+                    {% csrf_token %}
+
+                    <!-- Render Form Fields -->
+                    <div class="mb-3">
+                        <label for="year" class="form-label">Year</label>
+                        <input type="number" class="form-control" id="year" name="year" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="make" class="form-label">Make</label>
+                        <input type="text" class="form-control" id="make" name="make" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="model" class="form-label">Model</label>
+                        <input type="text" class="form-control" id="model" name="model" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="vehicle_type" class="form-label">Vehicle Type</label>
+                        <input type="text" class="form-control" id="vehicle_type" name="vehicle_type" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sub_category" class="form-label">Sub Category</label>
+                        <input type="text" class="form-control" id="sub_category" name="sub_category" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="classification" class="form-label">Classification</label>
+                        <input type="text" class="form-control" id="classification" name="classification" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <input type="text" class="form-control" id="status" name="status" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="vin" class="form-label">VIN</label>
+                        <input type="text" class="form-control" id="vin" name="vin" required>
+                    </div>
+
+                    <!-- Purchase Details Fields -->
+                    <div class="mb-3">
+                        <label for="purchase_date" class="form-label">Purchase Date</label>
+                        <input type="date" class="form-control" id="purchase_date" name="purchase_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dealership" class="form-label">Dealership</label>
+                        <input type="text" class="form-control" id="dealership" name="dealership" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="invoice_no" class="form-label">Invoice No</label>
+                        <input type="text" class="form-control" id="invoice_no" name="invoice_no" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cost_price" class="form-label">Cost Price</label>
+                        <input type="number" step="0.01" class="form-control" id="cost_price" name="cost_price"
+                            required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Asset</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

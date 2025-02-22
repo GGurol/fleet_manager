@@ -1,0 +1,37 @@
+{% extends "fleet_manager/layout.html" %}
+{% load static %}
+{% load humanize %}
+
+
+{% block body %}
+
+<!-- Financed Vehicles Summary -->
+<div class="financed-summary">
+    <br />
+    <h2>Financed Vehicles Summary</h2>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Finance House</th>
+                <th>Count of Financed Assets</th>
+                <th>Total Installments (R)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for finance in financed_data %}
+            <tr>
+                <td>{{ finance.funding_institution }}</td>
+                <td>{{ finance.count }}</td>
+                <td>R{{ finance.total_installments|floatformat:2|intcomma }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No financed data available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
