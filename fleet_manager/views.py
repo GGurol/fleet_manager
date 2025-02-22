@@ -6,8 +6,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.db import IntegrityError
 from django.core.paginator import Paginator
+from datetime import date, timedelta
 
-from .models import User, Asset, PurchaseDetails, FinancingDetails
+from .models import User, Asset, PurchaseDetails, FinancingDetails, LicensingDetails
 from django.db.models import Sum, Count
 
 from .forms import EditProfileForm, AssetForm
@@ -155,21 +156,38 @@ def finance_summary(request):
 
 
 def licensing(request):
-    return render(request, 'fleet_manager/licensing.html')
+    today = date.today()
+    today_plus_30 = today + timedelta(days=30)
+
+    discs = LicensingDetails.objects.all().order_by('disc_expiry_date')  
+
+    for disc in discs:
+        disc.is_expiring_soon = disc.disc_expiry_date and disc.disc_expiry_date <= today_plus_30
+
+    paginator = Paginator(discs, 12)
+    page_number = request.GET.get("page")
+    discs = paginator.get_page(page_number)
+
+    return render(request, 'fleet_manager/licensing.html', {'discs': discs})
 
 
 def asset_view(request, asset_id):
+    # Get the asset or return a 404 error if not found
     asset = get_object_or_404(Asset, id=asset_id)
 
-    try:
-        purchase_details = asset.purchasedetails
-    except PurchaseDetails.DoesNotExist:
-        purchase_details = None  # ✅ Prevents crash if missing
+    # Fetch related data
+    purchase_details = PurchaseDetails.objects.filter(asset=asset).first()
+    financing_details = FinancingDetails.objects.filter(asset=asset)
+    licensing_details = LicensingDetails.objects.filter(asset=asset)
 
-    return render(request, 'fleet_manager/asset_screen.html', {
-        'asset': asset,
-        'purchase_details': purchase_details
-    })
+    context = {
+        "asset": asset,
+        "purchase_details": purchase_details,
+        "financing_details": financing_details,
+        "licensing_details": licensing_details,
+    }
+
+    return render(request, "fleet_manager/asset_screen.html", context)
 
 
 def search_view(request):

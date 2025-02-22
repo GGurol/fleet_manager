@@ -1,0 +1,59 @@
+<!-- Modal for Editing Asset -->
+<div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAssetModalLabel">Edit Asset</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'edit_asset' asset.id %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="year" class="form-label">Year</label>
+                        <input type="number" class="form-control" id="year" name="year" value="{{ asset.year }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="make" class="form-label">Make</label>
+                        <input type="text" class="form-control" id="make" name="make" value="{{ asset.make }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="model" class="form-label">Model</label>
+                        <input type="text" class="form-control" id="model" name="model" value="{{ asset.model }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="vehicle_type" class="form-label">Vehicle Type</label>
+                        <input type="text" class="form-control" id="vehicle_type" name="vehicle_type" value="{{ asset.vehicle_type }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="sub_category" class="form-label">Sub Category</label>
+                        <input type="text" class="form-control" id="sub_category" name="sub_category" value="{{ asset.sub_category }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="classification" class="form-label">Classification</label>
+                        <input type="text" class="form-control" id="classification" name="classification" value="{{ asset.classification }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <input type="text" class="form-control" id="status" name="status" value="{{ asset.status }}" required>
+                    </div>
+
+                    <!-- VIN is not editable -->
+                    <div class="mb-3">
+                        <label for="vin" class="form-label">VIN</label>
+                        <input type="text" class="form-control bg-light text-muted" id="vin" name="vin" value="{{ asset.vin }}" readonly>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

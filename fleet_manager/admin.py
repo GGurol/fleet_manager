@@ -1,26 +1,33 @@
 from django.contrib import admin
-from .models import Asset, PurchaseDetails, FinancingDetails
+from .models import Asset, PurchaseDetails, FinancingDetails, LicensingDetails
 
 
 @admin.register(Asset)
 class AssetAdmin(admin.ModelAdmin):
-    list_display = ('year', 'make', 'model', 'vehicle_type',
-                    'sub_category', 'classification', 'status', 'vin')
-    search_fields = ('make', 'model', 'vin')
-    list_filter = ('year', 'make', 'status')
+    list_display = ('year', 'make', 'model', 'vehicle_type', 'status', 'vin')
+    list_filter = ('status', 'vehicle_type', 'year')
+    search_fields = ('vin', 'make', 'model')
 
 
 @admin.register(PurchaseDetails)
 class PurchaseDetailsAdmin(admin.ModelAdmin):
-    list_display = ('purchase_date', 'dealership', 'invoice_no',
-                    'cost_price', 'disc_fee', 'disc_expiry_date', 'asset')
-    search_fields = ('dealership', 'invoice_no', 'asset__vin')
-    list_filter = ('purchase_date', 'dealership')
+    list_display = ('asset', 'dealership', 'purchase_date',
+                    'invoice_no', 'cost_price')
+    list_filter = ('dealership', 'purchase_date')
+    search_fields = ('invoice_no', 'dealership')
 
 
 @admin.register(FinancingDetails)
 class FinancingDetailsAdmin(admin.ModelAdmin):
-    list_display = ('funding_institution', 'loan_ref_number', 'loan_end_date',
-                    'loan_terms', 'installments', 'reg_no', 'fleet_no', 'asset')
-    search_fields = ('funding_institution', 'loan_ref_number', 'asset__vin')
-    list_filter = ('loan_end_date', 'funding_institution')
+    list_display = ('asset', 'funding_institution', 'loan_ref_number',
+                    'loan_end_date', 'loan_terms', 'installments')
+    list_filter = ('funding_institution', 'loan_end_date')
+    search_fields = ('loan_ref_number', 'funding_institution')
+
+
+@admin.register(LicensingDetails)
+class LicensingDetailsAdmin(admin.ModelAdmin):
+    list_display = ('asset', 'reg_no', 'fleet_no',
+                    'disc_fee', 'disc_expiry_date')
+    list_filter = ('disc_expiry_date',)
+    search_fields = ('reg_no', 'fleet_no')

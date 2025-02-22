@@ -1,12 +1,66 @@
-{% extends "fleet_manager/layout.html" %}
-{% load static %}
+{% extends "fleet_manager/layout.html" %} 
+{% load static %} 
+{% load humanize %}
 
-{% block content %}
-<h2>To do</h2>
-<ul>
-    <li>
-        assets by vin, disc cost, permit cost, count and sum of vehicles expiring in
-        current month as well as following month
-    </li>
-</ul>
+{% block body %}
+<div class="asset-list">
+    <h2>License Discs</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Make</th>
+                <th>Fleet No.</th>
+                <th>Reg No.</th>
+                <th>Renewal Fees</th>
+                <th>Expiry Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for disc in discs %}
+            <tr {% if disc.is_expiring_soon %} class="table-danger" {% endif %}>
+                <td>{{ disc.asset.model }}</td>
+                <td>{{ disc.fleet_no }}</td>
+                <td>{{ disc.reg_no }}</td>
+                <td>R{{ disc.disc_fee|floatformat:2|intcomma }}</td> 
+                <td>{{ disc.disc_expiry_date }}</td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-info">View</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No assets available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Pagination Controls -->
+<nav>
+    <ul class="pagination justify-content-center">
+        {% if discs.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">&laquo; First</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ discs.previous_page_number }}">Previous</a>
+        </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+            <span class="page-link">Page {{ discs.number }} of {{discs.paginator.num_pages}}</span>
+        </li>
+
+        {% if discs.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ discs.next_page_number }}">Next</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ discs.paginator.num_pages }}">Last &raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
 {% endblock %}
