@@ -17,19 +17,13 @@ from .forms import EditProfileForm, AssetForm
 
 def home(request):
     # Count and total cost per vehicle type
-    vehicle_summary = Asset.objects.values('vehicle_type').annotate(
+    vehicle_summary = Asset.objects.filter(status='Active').values('vehicle_type').annotate(
         total_cost=Sum('purchasedetails__cost_price'),
         count=Count('id')
     ).order_by('vehicle_type')
 
-    # Finance house and count for financed vehicles
-    financed_data = FinancingDetails.objects.values('funding_institution').annotate(
-        count=Count('id')
-    ).order_by('funding_institution')
-
     context = {
         'vehicle_summary': vehicle_summary,
-        'financed_data': financed_data,
     }
 
     return render(request, 'fleet_manager/home.html', context)
