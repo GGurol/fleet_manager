@@ -96,3 +96,24 @@ Developed by Simphiwe Ndaba.
 ## Acknowledgments
 
 This project was inspired by the need for efficient fleet management solutions and was developed as part of Simphiwe's CS50W journey.
+
+
+## Screenshots
+
+### Assets Listing
+![asset listing](screenshots/asset_listing.png)
+
+### Adding an Asset
+![asset addition modal](screenshots/asset_add.png)
+
+### Asset View
+![asset view screen](screenshots/asset_screen.png)
+
+### Licence Discs tracking
+![licensing](screenshots/licensing.png)
+
+### SendGrid Integration
+![SendGrid](screenshots/SendGrid.png)
+
+### Expiry reminder emails
+![expiry email](screenshots/email.png)
