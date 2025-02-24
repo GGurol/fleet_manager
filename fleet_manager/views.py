@@ -107,34 +107,60 @@ def edit_profile(request):
 
 def asset_list(request):
     assets = Asset.objects.filter(status='Active')
+    title = "All Assets"
 
     paginator = Paginator(assets, 10)
     page_number = request.GET.get("page")
     assets = paginator.get_page(page_number)
-    return render(request, 'fleet_manager/asset_list.html', {'assets': assets})
+
+    return render(request, 'fleet_manager/asset_list.html', {'assets': assets, 'title': title})
 
 
 def truck_list(request):
     filtered_assets = Asset.objects.filter(
         vehicle_type='Truck', status='Active')
-    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets})
+    title = "Trucks"
+
+    paginator = Paginator(filtered_assets, 10)
+    page_number = request.GET.get("page")
+    filtered_assets = paginator.get_page(page_number)
+
+    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title})
 
 
 def trailer_list(request):
     filtered_assets = Asset.objects.filter(
         vehicle_type='Trailer', status='Active')
-    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets})
+    title = "Trailers"
+
+    paginator = Paginator(filtered_assets, 10)
+    page_number = request.GET.get("page")
+    filtered_assets = paginator.get_page(page_number)
+
+    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title})
 
 
 def light_list(request):
     filtered_assets = Asset.objects.filter(
         vehicle_type='Light Vehicle', status='Active')
-    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets})
+    title = "Light Vehicles"
+
+    paginator = Paginator(filtered_assets, 10)
+    page_number = request.GET.get("page")
+    filtered_assets = paginator.get_page(page_number)
+
+    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title})
 
 
 def inactive_list(request):
     filtered_assets = Asset.objects.filter(status='Inactive')
-    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets})
+    title = "Inactive Vehicles"
+
+    paginator = Paginator(filtered_assets, 10)
+    page_number = request.GET.get("page")
+    filtered_assets = paginator.get_page(page_number)
+
+    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title})
 
 
 def finance_summary(request):

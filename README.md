@@ -112,7 +112,7 @@ This project was inspired by the need for efficient fleet management solutions a
 ### Asset View
 ![asset view screen](screenshots/asset_screen.png)
 
-### Licence Discs tracking
+### Licence Discs tracking (Dark Mode)
 ![licensing](screenshots/licensing.png)
 
 ### SendGrid Integration
