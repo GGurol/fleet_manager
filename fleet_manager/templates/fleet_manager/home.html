@@ -27,9 +27,15 @@
         <td colspan="3">No vehicle summary available.</td>
       </tr>
       {% endfor %}
+      <tr>
+        <td><strong>Total</strong></td>
+        <td><strong>{{ total_count }}</strong></td>
+        <td><strong>R{{ total_cost|floatformat:2|intcomma }}</strong></td>
+      </tr>
     </tbody>
   </table>
-</div><br>
+</div>
+<br>
 
 <!-- Dashboard Cards -->
 <div class="container mt-4">

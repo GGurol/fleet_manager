@@ -22,8 +22,14 @@ def home(request):
         count=Count('id')
     ).order_by('vehicle_type')
 
+    # Calculate overall totals
+    total_count = sum(item['count'] for item in vehicle_summary)
+    total_cost = sum(item['total_cost'] for item in vehicle_summary if item['total_cost'] is not None)
+
     context = {
         'vehicle_summary': vehicle_summary,
+        'total_count': total_count,
+        'total_cost': total_cost,
     }
 
     return render(request, 'fleet_manager/home.html', context)
@@ -158,7 +164,7 @@ def inactive_list(request):
 
     paginator = Paginator(filtered_assets, 10)
     page_number = request.GET.get("page")
-    filtered_assets = paginator.get_page(page_number)
+    filtered_assets  = paginator.get_page(page_number)
 
     return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title})
 
