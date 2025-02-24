@@ -7,6 +7,30 @@ const sidebarOpen = document.querySelector("#sidebarOpen");
 const sidebarClose = document.querySelector(".collapse_sidebar");
 const sidebarExpand = document.querySelector(".expand_sidebar");
 
+// Function to apply dark mode based on stored preference
+function applyDarkMode(isDark) {
+    if (isDark) {
+        body.classList.add("dark");
+        darkLight.classList.replace("bx-sun", "bx-moon");
+    } else {
+        body.classList.remove("dark");
+        darkLight.classList.replace("bx-moon", "bx-sun");
+    }
+}
+
+// Check for stored dark mode preference on page load
+document.addEventListener("DOMContentLoaded", () => {
+    const darkModeEnabled = localStorage.getItem("darkMode") === "enabled";
+    applyDarkMode(darkModeEnabled);
+});
+
+// Toggle dark mode and store preference
+darkLight.addEventListener("click", () => {
+    const darkModeEnabled = body.classList.toggle("dark");
+    localStorage.setItem("darkMode", darkModeEnabled ? "enabled" : "disabled");
+    applyDarkMode(darkModeEnabled);
+});
+
 // Toggle sidebar visibility when sidebar open button is clicked
 sidebarOpen.addEventListener("click", () => {
     sidebar.classList.toggle("close");
@@ -33,16 +57,6 @@ sidebar.addEventListener("mouseenter", () => {
 sidebar.addEventListener("mouseleave", () => {
     if (sidebar.classList.contains("hoverable")) {
         sidebar.classList.add("close");
-    }
-});
-
-// Toggle dark mode and change icon accordingly
-darkLight.addEventListener("click", () => {
-    body.classList.toggle("dark");
-    if (body.classList.contains("dark")) {
-        darkLight.classList.replace("bx-sun", "bx-moon");
-    } else {
-        darkLight.classList.replace("bx-moon", "bx-sun");
     }
 });
 

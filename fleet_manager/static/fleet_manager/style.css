@@ -22,6 +22,7 @@ body {
   background-color: #e7f2fd;
   transition: all 0.5s ease;
   padding: 0px 2px;
+  color: #333;
 }
 
 /* Dark mode styles */
@@ -297,3 +298,30 @@ body.dark .container {
     left: -100%;
   }
 }
+
+/* Default Light Mode Table Styles */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+  font-family: "Poppins", sans-serif;
+}
+
+.table th, .table td {
+  padding: 10px;
+}
+
+/* Dark Mode Table Styling */
+body.dark .table {
+  background-color: #333;
+  color: white;
+}
+
+body.dark .table th, 
+body.dark .table td {
+  border-color: #444; /* Darker borders */
+}
+
+
