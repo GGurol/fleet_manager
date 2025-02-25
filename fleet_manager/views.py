@@ -8,6 +8,7 @@ from django.db import IntegrityError
 from django.core.paginator import Paginator
 from datetime import date, timedelta, datetime
 from django.db.models.functions import ExtractMonth
+import csv
 
 from .models import User, Asset, PurchaseDetails, FinancingDetails, LicensingDetails
 from django.db.models import Sum, Count
@@ -114,59 +115,61 @@ def edit_profile(request):
 def asset_list(request):
     assets = Asset.objects.filter(status='Active')
     title = "All Assets"
+    export_url = reverse('export_assets') + "?vehicle_type=all"
 
     paginator = Paginator(assets, 10)
     page_number = request.GET.get("page")
     assets = paginator.get_page(page_number)
 
-    return render(request, 'fleet_manager/asset_list.html', {'assets': assets, 'title': title})
+    return render(request, 'fleet_manager/asset_list.html', {'assets': assets, 'title': title, 'export_url': export_url})
 
 
 def truck_list(request):
-    filtered_assets = Asset.objects.filter(
-        vehicle_type='Truck', status='Active')
+    filtered_assets = Asset.objects.filter(vehicle_type='Truck', status='Active')
     title = "Trucks"
+    export_url = reverse('export_assets') + "?vehicle_type=truck"
 
     paginator = Paginator(filtered_assets, 10)
     page_number = request.GET.get("page")
     filtered_assets = paginator.get_page(page_number)
 
-    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title})
+    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title, 'export_url': export_url})
 
 
 def trailer_list(request):
-    filtered_assets = Asset.objects.filter(
-        vehicle_type='Trailer', status='Active')
+    filtered_assets = Asset.objects.filter(vehicle_type='Trailer', status='Active')
     title = "Trailers"
+    export_url = reverse('export_assets') + "?vehicle_type=trailer"
 
     paginator = Paginator(filtered_assets, 10)
     page_number = request.GET.get("page")
     filtered_assets = paginator.get_page(page_number)
 
-    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title})
+    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title, 'export_url': export_url})
 
 
 def light_list(request):
-    filtered_assets = Asset.objects.filter(
-        vehicle_type='Light Vehicle', status='Active')
+    filtered_assets = Asset.objects.filter(vehicle_type='Light Vehicle', status='Active')
     title = "Light Vehicles"
+    export_url = reverse('export_assets') + "?vehicle_type=light"
 
     paginator = Paginator(filtered_assets, 10)
     page_number = request.GET.get("page")
     filtered_assets = paginator.get_page(page_number)
 
-    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title})
+    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title, 'export_url': export_url})
 
 
 def inactive_list(request):
     filtered_assets = Asset.objects.filter(status='Inactive')
     title = "Inactive Vehicles"
+    export_url = reverse('export_assets') + "?vehicle_type=inactive"
 
     paginator = Paginator(filtered_assets, 10)
     page_number = request.GET.get("page")
-    filtered_assets  = paginator.get_page(page_number)
+    filtered_assets = paginator.get_page(page_number)
 
-    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title})
+    return render(request, 'fleet_manager/asset_list.html', {'assets': filtered_assets, 'title': title, 'export_url': export_url})
 
 
 def finance_summary(request):
@@ -179,6 +182,7 @@ def finance_summary(request):
     context = {
         'financed_data': financed_data,
     }
+
     return render(request, 'fleet_manager/finance.html', context)
 
 
@@ -257,6 +261,7 @@ def search_view(request):
         'results': results,
         'query': query
     }
+
     return render(request, 'fleet_manager/search.html', context)
 
 
@@ -294,4 +299,41 @@ def edit_asset_view(request, asset_id):
             return redirect('asset-detail', asset_id=asset.id)
 
     context = {'asset': asset}
+    
     return render(request, 'fleet_manager/asset_screen.html', context)
+
+
+def export_assets(request):
+    """Exports filtered assets to a CSV file based on the vehicle type query parameter."""
+
+    vehicle_type = request.GET.get("vehicle_type", "all")  # Default to "all"
+    filename = "all_assets.csv"
+
+    if vehicle_type == "all":
+        assets = Asset.objects.filter(status="Active")
+    elif vehicle_type == "truck":
+        assets = Asset.objects.filter(vehicle_type="Truck", status="Active")
+        filename = "trucks.csv"
+    elif vehicle_type == "trailer":
+        assets = Asset.objects.filter(vehicle_type="Trailer", status="Active")
+        filename = "trailers.csv"
+    elif vehicle_type == "light":
+        assets = Asset.objects.filter(vehicle_type="Light Vehicle", status="Active")
+        filename = "light_vehicles.csv"
+    elif vehicle_type == "inactive":
+        assets = Asset.objects.filter(status="Inactive")
+        filename = "inactive_assets.csv"
+    else:
+        assets = Asset.objects.filter(status="Active")
+
+    # Create CSV response
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = f'attachment; filename="{filename}"'
+
+    writer = csv.writer(response)
+    writer.writerow(["Make", "Model", "Year", "Type", "Status"])
+
+    for asset in assets:
+        writer.writerow([asset.make, asset.model, asset.year, asset.vehicle_type, asset.status])
+
+    return response

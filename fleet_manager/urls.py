@@ -1,11 +1,9 @@
 from django.urls import path
 from . import views
-from .views import asset_list
-
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('assets/', asset_list, name='asset_list'),
+    path('assets/', views.asset_list, name='asset_list'),
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
     path("register/", views.register, name="register"),
@@ -20,4 +18,5 @@ urlpatterns = [
     path('search/', views.search_view, name='search'),
     path('add-asset/', views.add_asset, name='add_asset'),
     path('asset/<int:asset_id>/edit/', views.edit_asset_view, name='edit_asset'),
+    path('assets/export/', views.export_assets, name='export_assets'),
 ]
