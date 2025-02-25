@@ -12,6 +12,7 @@ Fleet Manager is a web-based application designed to help organizations manage t
 - **Discount Expiry Alerts**: Automatic email notifications for approaching discount expiry dates.
 - **Task Scheduling**: Uses Django-Q for background task execution.
 - **Search Functionality**: Easily find vehicles by VIN, make, or model.
+- **Excel Download**: Export asset listings to .csv
 
 ## Technologies Used
 
@@ -112,7 +113,7 @@ This project was inspired by the need for efficient fleet management solutions a
 ### Asset View
 ![asset view screen](screenshots/asset_screen.png)
 
-### Licence Discs tracking (Dark Mode)
+### Licence Discs tracking
 ![licensing](screenshots/licensing.png)
 
 ### SendGrid Integration
