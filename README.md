@@ -26,7 +26,7 @@ Fleet Manager is a web-based application designed to help organizations manage t
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/simminda/fleet-manager.git
+   git clone https://github.com/simminda/fleet_manager.git
    cd fleet-manager
    ```
 2. Create a virtual environment and activate it:
