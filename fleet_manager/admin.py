@@ -1,6 +1,8 @@
 from django.contrib import admin
-from .models import Asset, PurchaseDetails, FinancingDetails, LicensingDetails
+from django.contrib.auth.admin import UserAdmin
+from .models import Asset, PurchaseDetails, FinancingDetails, LicensingDetails, User
 
+admin.site.register(User, UserAdmin)
 
 @admin.register(Asset)
 class AssetAdmin(admin.ModelAdmin):
